@@ -109,6 +109,19 @@ pub enum WriteError {
     SaveTooLarge,
 }
 
+impl core::fmt::Display for WriteError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        let msg = match self {
+            WriteError::NoStructPresent => "no struct present",
+            WriteError::TooManyFields => "too many fields",
+            WriteError::SaveTooLarge => "save data too large",
+        };
+        write!(f, "{msg}")
+    }
+}
+
+impl std::error::Error for WriteError {}
+
 impl<'a> WriteSavestate for PersistentWriteSavestate<'a> {
     type Error = WriteError;
 

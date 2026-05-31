@@ -131,6 +131,20 @@ pub enum ReadError {
     InvalidEnum,
 }
 
+impl core::fmt::Display for ReadError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        let msg = match self {
+            ReadError::FieldNotFound => "field not found",
+            ReadError::UnexpectedEof => "unexpected end of file",
+            ReadError::NoStructPresent => "no struct present",
+            ReadError::InvalidEnum => "invalid enum discriminant",
+        };
+        write!(f, "{msg}")
+    }
+}
+
+impl std::error::Error for ReadError {}
+
 impl<'a> ReadSavestate for PersistentReadSavestate<'a> {
     type Error = ReadError;
 
