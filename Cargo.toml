@@ -1,7 +1,5 @@
 [workspace]
-members = [
-    "macros",
-]
+members = ["macros"]
 
 [package]
 name = "emu-utils"
@@ -12,6 +10,7 @@ publish = false
 [features]
 triple-buffer = []
 app = ["cocoa", "objc"]
+nightly = []
 
 [dependencies]
 cfg-if = "1.0"

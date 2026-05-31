@@ -4,8 +4,10 @@ use core::{
     convert::Infallible,
     mem::{size_of, MaybeUninit},
     ptr,
-    simd::{LaneCount, Simd, SimdElement, SupportedLaneCount},
 };
+
+#[cfg(feature = "nightly")]
+use core::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
 
 pub trait LoadableInPlace {
     fn load_in_place<S: ReadSavestate>(&mut self, save: &mut S) -> Result<(), S::Error>;
@@ -367,9 +369,14 @@ where
     fn load<S: ReadSavestate>(save: &mut S) -> Result<Self, S::Error> {
         let mut result = [const { MaybeUninit::uninit() }; LEN];
         for elem in &mut result {
-            *elem = MaybeUninit::new(save.load()?);
+            *elem = MaybeUninit::new(save.load::<T>()?);
         }
-        Ok(unsafe { MaybeUninit::array_assume_init(result) })
+
+        let arr = unsafe {
+            let ptr = result.as_ptr() as *const [T; LEN];
+            ptr.read()
+        };
+        Ok(arr)
     }
 }
 
@@ -386,6 +393,7 @@ where
     }
 }
 
+#[cfg(feature = "nightly")]
 impl<T: SimdElement, const LANES: usize> Loadable for Simd<T, LANES>
 where
     T: Loadable,
@@ -403,6 +411,7 @@ where
     }
 }
 
+#[cfg(feature = "nightly")]
 impl<T: SimdElement, const LANES: usize> LoadableInPlace for Simd<T, LANES>
 where
     T: LoadableInPlace,

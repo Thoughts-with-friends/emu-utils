@@ -1,8 +1,11 @@
-#![feature(
-    maybe_uninit_array_assume_init,
-    portable_simd,
-    new_zeroed_alloc,
-    core_intrinsics
+#![cfg_attr(
+    feature = "nightly",
+    feature(
+        maybe_uninit_array_assume_init,
+        portable_simd,
+        new_zeroed_alloc,
+        core_intrinsics
+    )
 )]
 #![allow(internal_features)]
 #![warn(clippy::all)]

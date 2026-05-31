@@ -1,11 +1,7 @@
 use crate::{Bytes, MemValue, OwnedBytesCellPtr};
-use core::{
-    cell::Cell,
-    convert::Infallible,
-    mem::size_of,
-    ptr,
-    simd::{LaneCount, Simd, SimdElement, SupportedLaneCount},
-};
+#[cfg(feature = "nightly")]
+use core::simd::{LaneCount, Simd, SimdElement, SupportedLaneCount};
+use core::{cell::Cell, convert::Infallible, mem::size_of, ptr};
 
 pub trait Storable {
     fn store<S: WriteSavestate>(&mut self, save: &mut S) -> Result<(), S::Error>;
@@ -303,6 +299,7 @@ where
     }
 }
 
+#[cfg(feature = "nightly")]
 impl<T: SimdElement, const LANES: usize> Storable for Simd<T, LANES>
 where
     T: Storable,

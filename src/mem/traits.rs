@@ -167,37 +167,37 @@ mod impl_primitive {
                     #[inline]
                     fn from_le_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_le_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_le_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn from_be_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_be_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_be_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn from_ne_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_ne_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_ne_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn to_le_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_le_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_le_bytes(self)) }
                     }
 
                     #[inline]
                     fn to_be_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_be_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_be_bytes(self)) }
                     }
 
                     #[inline]
                     fn to_ne_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_ne_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_ne_bytes(self)) }
                     }
 
                     #[inline]
@@ -326,37 +326,37 @@ mod impl_primitive {
                     #[inline]
                     fn from_le_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_le_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_le_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn from_be_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_be_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_be_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn from_ne_bytes<const SIZE: usize>(bytes: [u8; SIZE]) -> Self {
                         assert!(SIZE == mem::size_of::<Self>());
-                        <$ty>::from_ne_bytes(unsafe { core::intrinsics::transmute_unchecked(bytes) })
+                        <$ty>::from_ne_bytes(unsafe { core::mem::transmute_copy(&bytes) })
                     }
 
                     #[inline]
                     fn to_le_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_le_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_le_bytes(self)) }
                     }
 
                     #[inline]
                     fn to_be_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_be_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_be_bytes(self)) }
                     }
 
                     #[inline]
                     fn to_ne_bytes<const SIZE: usize>(self) -> [u8; SIZE] {
                         assert!(SIZE == mem::size_of::<Self>());
-                        unsafe { core::intrinsics::transmute_unchecked(<$ty>::to_ne_bytes(self)) }
+                        unsafe { core::mem::transmute_copy(&<$ty>::to_ne_bytes(self)) }
                     }
 
                     #[inline]
