@@ -346,6 +346,34 @@ impl_loadable_tuples!(
     )
 );
 
+impl<T> Loadable for std::collections::VecDeque<T>
+where
+    T: Loadable,
+{
+    #[inline]
+    fn load<S: ReadSavestate>(save: &mut S) -> Result<Self, S::Error> {
+        let len = save.load_raw::<u32>()? as usize;
+        let mut result = std::collections::VecDeque::with_capacity(len);
+        for _ in 0..len {
+            result.push_back(save.load()?);
+        }
+        Ok(result)
+    }
+}
+
+impl<T> LoadableInPlace for std::collections::VecDeque<T>
+where
+    T: LoadableInPlace,
+{
+    #[inline]
+    fn load_in_place<S: ReadSavestate>(&mut self, save: &mut S) -> Result<(), S::Error> {
+        for elem in self {
+            save.load_into(elem)?;
+        }
+        Ok(())
+    }
+}
+
 impl<T> Loadable for Vec<T>
 where
     T: Loadable,
@@ -358,6 +386,19 @@ where
             result.push(save.load()?);
         }
         Ok(result)
+    }
+}
+
+impl<T> LoadableInPlace for Vec<T>
+where
+    T: LoadableInPlace,
+{
+    #[inline]
+    fn load_in_place<S: ReadSavestate>(&mut self, save: &mut S) -> Result<(), S::Error> {
+        for elem in self {
+            save.load_into(elem)?;
+        }
+        Ok(())
     }
 }
 

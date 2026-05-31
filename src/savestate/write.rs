@@ -272,6 +272,20 @@ impl_storable_tuples!(
     )
 );
 
+impl<T> Storable for std::collections::VecDeque<T>
+where
+    T: Storable,
+{
+    #[inline]
+    fn store<S: WriteSavestate>(&mut self, save: &mut S) -> Result<(), S::Error> {
+        save.store_array_len(self.len())?;
+        for elem in self {
+            elem.store(save)?;
+        }
+        Ok(())
+    }
+}
+
 impl<T> Storable for Vec<T>
 where
     T: Storable,
